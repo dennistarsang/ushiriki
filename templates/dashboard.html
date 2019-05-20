@@ -15,17 +15,12 @@
     </tr>
     {% for article in articles %}
       <tr>
-        <td>{{article.id}}</td>
+        <td>{{article.post_id}}</td>
         <td>{{article.title}}</td>
-        <td>{{article.author}}</td>
-        <td>{{article.create_date}}</td>
-        <td><a href="edit_article/{{article.id}}" class="btn btn-default pull-right">Edit</a></td>
-        <td>
-          <form action="{{url_for('delete_article', id=article.id)}}" method="post">
-            <input type="hidden" name="_method" value="DELETE">
-            <input type="submit" value="Delete" class="btn btn-danger">
-          </form>
-        </td>
+        <td>{{article.first_name}} {{article.last_name}}</td>
+        <td>{{article.created_date}}</td>
+        <td><a href="edit_article/{{article.post_id}}" class="btn btn-default pull-right">Edit</a></td>
+        <td><a href="delete_article/{{article.post_id}}" class="btn btn-danger pull-right">Delete</a></td>
       </tr>
     {% endfor %}
   </table>

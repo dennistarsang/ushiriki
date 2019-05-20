@@ -12,10 +12,38 @@
       {% block body %}{% endblock %}
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="//cdn.ckeditor.com/4.6.2/basic/ckeditor.js"></script>
-    <script type="text/javascript">
-      CKEDITOR.replace('editor')
-    </script>
+    
+    <script src="//cdn.ckeditor.com/4.6.2/basic/ckeditor.js"></script>  
+      <script>
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", "/fetch-areas", false ); // false for synchronous request
+        xmlHttp.send( null );
+        var response = JSON.parse(xmlHttp.responseText);
+        var subcounties = response.subcounties
+        var wards = response.wards
+
+        for (subcounty of subcounties) {
+         
+          $("#subcounties select").append($('<option>', {
+            value: subcounty.subcounty_id,
+            text: subcounty.subcounty_name
+          }))
+        }
+        $("#subcounties select").on('change', function() {
+          var chosen_subcounty = this.value
+          var subcounty_wards = wards.filter(ward => ward.subcounty_id == chosen_subcounty)
+          $("#wards select").html('<option value="">Select your ward</option>')
+          for (ward of subcounty_wards) {
+            $("#wards select").append($('<option>', {
+            value: ward.ward_id,
+            text: ward.ward_name
+          }))
+          }
+          
+        })
+      </script>
   </body>
 </html>
